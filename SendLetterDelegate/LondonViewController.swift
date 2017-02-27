@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol LondonViewControllerDelegate: class {
+    func letterSent(from: LondonViewController, message: String)
+}
+
 class LondonViewController: UIViewController, UITextViewDelegate {
+    
+    weak var delegate: LondonViewControllerDelegate?
     
     // View elements
     @IBOutlet weak var letterTextView: UITextView!
@@ -38,9 +44,11 @@ class LondonViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
         
+        
         animateLetter {
             self.dismiss(animated: true, completion: nil)
         }
+        delegate?.letterSent(from: self, message: letterTextView.text)
     }
     
     @IBAction func tapGestureTapped(_ sender: UITapGestureRecognizer) {
